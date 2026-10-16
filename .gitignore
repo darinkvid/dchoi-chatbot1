@@ -1,0 +1,19 @@
+node_modules/
+.next/
+out/
+.vercel/
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts
+
+# 비밀 정보 — 절대 GitHub에 올리면 안 됩니다
+.env
+.env.local
+.env*.local
+
+# 로컬 테스트용 저장소 (Vercel에서는 Upstash Redis 사용)
+.data/
+
+# 이 맥 전용 파일
+.claude/
+DEPLOY_KEY.txt
