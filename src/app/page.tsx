@@ -124,7 +124,10 @@ function Chat({ me, onLogout }: { me: Me; onLogout: () => void }) {
 
   useEffect(() => {
     fetch("/api/chat")
-      .then((r) => r.json())
+      .then((r) => {
+        if (r.status === 401) onLogout();
+        return r.json();
+      })
       .then((d) => {
         if (d.messages) setMessages(d.messages);
         if (d.status) setStatus(d.status);
@@ -148,6 +151,7 @@ function Chat({ me, onLogout }: { me: Me; onLogout: () => void }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message }),
       });
+      if (res.status === 401) return onLogout(); // 로그인 정보가 사라졌으면 처음 화면으로
       const d = await res.json();
       if (d.messages) setMessages(d.messages);
       if (d.status) setStatus(d.status);

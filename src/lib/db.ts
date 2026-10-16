@@ -8,7 +8,7 @@ const newId = () => crypto.randomUUID().replace(/-/g, "").slice(0, 16);
 
 // ── 사용자 ─────────────────────────────────────────
 
-export async function findOrCreateUser(name: string, email: string): Promise<User> {
+export async function findOrCreateUser(name: string, email: string, preferredId?: string): Promise<User> {
   const key = email.trim().toLowerCase();
   const existingId = await kv.hget<string>("user_by_email", key);
   if (existingId) {
@@ -20,7 +20,7 @@ export async function findOrCreateUser(name: string, email: string): Promise<Use
     }
   }
   const user: User = {
-    id: newId(),
+    id: preferredId || newId(),
     name: name.trim(),
     email: key,
     createdAt: now(),
